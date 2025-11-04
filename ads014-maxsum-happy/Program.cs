@@ -8,9 +8,6 @@ static class Program
     static long[,] a;
     static long answer = -1;
 
-    // Memoization: cache[i, j] it's all sums processed before for this cell.
-    static HashSet<long>[,] cache;
-
     static void Main()
     {
         ReadInput();
@@ -30,7 +27,6 @@ static class Program
         N = int.Parse(numValues[0]);
         M = int.Parse(numValues[1]);
         a = new long[N, M];
-        cache = new HashSet<long>[N, M];
 
         for (var i = 0; i < N; ++i)
         {
@@ -39,7 +35,6 @@ static class Program
             for (var j = 0; j < M; ++j)
             {
                 a[i, j] = long.Parse(row[j]);
-                cache[i, j] = new HashSet<long>();
             }
         }
     }
@@ -53,13 +48,6 @@ static class Program
         }
 
         sum += a[i, j];
-
-        if (cache[i, j].Contains(sum))
-        {
-            // Was processed before.
-            return;
-        }
-        cache[i, j].Add(sum);
 
         // For the last row, check is sum is lucky.
         if (i == N - 1)
